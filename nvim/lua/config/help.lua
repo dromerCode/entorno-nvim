@@ -90,6 +90,7 @@ function M.setup()
       "[d / ]d    Error anterior / siguiente",
       "K          Tipo y documentación del símbolo",
       "gl         Errores de esta línea",
+      "           HTML: atributos mal escritos, ids y cierres incorrectos",
       "Espacio ld Errores del archivo",
       "Espacio fd Errores de todo el proyecto, con buscador",
       "gra        Arreglos rápidos: importar, corregir... (Espacio la)",

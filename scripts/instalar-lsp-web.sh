@@ -57,6 +57,7 @@ fi
 
 for executable in \
   tailwindcss-language-server \
+  html-validate \
   typescript-language-server \
   vscode-html-language-server \
   vscode-css-language-server \

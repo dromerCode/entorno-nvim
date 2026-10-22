@@ -1,5 +1,40 @@
 # LSP y completado nativo
 
+## Validación HTML del marcado
+
+El servidor HTML aporta completado, formato y operaciones de etiquetas, pero
+no comprueba por sí solo todo el marcado. `config.html_validation` añade
+`html-validate` 11.16.2, instalado y fijado en `tools/lsp-web` con Node 24.
+Lo reciben tanto el instalador completo como el del alumnado. Para actualizar
+una copia existente: `./scripts/actualizar.sh`; para reinstalar solo estas
+herramientas: `./scripts/instalar-lsp-web.sh`.
+
+En archivos `.html`, el análisis se programa 400 ms después de editar y también
+al abrir o guardar. Usa el contenido del buffer por stdin, sin archivos
+temporales ni servicios externos. El margen muestra E, el texto se subraya y
+`gl` abre el diagnóstico; `[d` / `]d` recorren los resultados. La presentación
+respeta la opción general de no actualizar diagnósticos durante inserción:
+al salir con Esc se ven los resultados. Corregir el marcado retira el error.
+
+Comprueba atributos desconocidos como `idddd`, ids/atributos duplicados,
+etiquetas desconocidas como `footerr`, orden de cierres y contenido permitido.
+`input`, `img` y los demás elementos vacíos no pueden llevar cierre explícito.
+Acepta fragmentos sin doctype/head y elementos personalizados con guion. No
+impone comillas, sangría ni otras preferencias de estilo. No analiza JSX,
+Vue ni plantillas de otros lenguajes con estas reglas HTML.
+
+El adaptador usa una configuración fija, sin cargar código de configuración
+del proyecto editado. Descarta respuestas de versiones anteriores del buffer,
+cancela procesos pendientes y convierte offsets UTF-16 a columnas UTF-8 para
+que los subrayados no se desplacen tras tildes o emojis. Los mensajes de la
+dependencia se conservan en su idioma original. La regla de atributos
+desconocidos está marcada experimental por el proveedor; puede tener falsos
+positivos o faltar metadatos. Referencia: [regla no-unknown-attributes](https://html-validate.org/rules/no-unknown-attributes.html).
+
+Prueba aislada: `tests/comprobar_html_validation.lua`, incluida en
+`scripts/comprobar.sh`. Usa texto sintético y verifica diagnósticos antes de
+guardar, desaparición al corregir, posición tras Unicode y respuestas antiguas.
+
 ## Responsabilidades
 
 Neovim 0.12.4 aporta el cliente LSP, los diagnósticos, la navegación, las

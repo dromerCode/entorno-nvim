@@ -8,10 +8,11 @@
     "node": ">=24 <25"
   },
   "scripts": {
-    "versiones": "node -e \"for (const nombre of ['typescript','typescript-language-server','vscode-langservers-extracted','@tailwindcss/language-server']) console.log(nombre + ' ' + require(nombre + '/package.json').version)\""
+    "versiones": "node -e \"for (const nombre of ['typescript','typescript-language-server','vscode-langservers-extracted','@tailwindcss/language-server','html-validate']) console.log(nombre + ' ' + require(nombre + '/package.json').version)\""
   },
   "devDependencies": {
     "@tailwindcss/language-server": "0.16.0",
+    "html-validate": "11.16.2",
     "typescript": "6.0.3",
     "typescript-language-server": "5.3.0",
     "vscode-langservers-extracted": "4.10.0"

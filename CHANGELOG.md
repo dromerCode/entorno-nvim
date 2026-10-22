@@ -2,6 +2,10 @@
 
 ## Sin publicar
 
+- Validación HTML local con html-validate 11.16.2: atributos mal escritos,
+  ids repetidos, etiquetas desconocidas y cierres incorrectos. Diagnósticos
+  automáticos incluso sin guardar, visibles con `gl`, sin analizar estilo ni
+  exigir documento completo a un fragmento. Incluida en el instalador web.
 - Emmet en HTML/CSS con `Ctrl+j`, compartido con las plantillas existentes.
   `clg` en JS/TS y `!` en HTML conservan su expansión. Plugin fijado por commit,
   sin Node ni servidor adicional. Tab mantiene su comportamiento.

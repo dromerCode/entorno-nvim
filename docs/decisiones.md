@@ -1,5 +1,37 @@
 # Decisiones e inventario
 
+## Validación HTML local (2026-10-23)
+
+Dependencia directa `html-validate` 11.16.2 en `tools/lsp-web`, fijada por
+versión exacta y lockfile. Compatible con el Node 24.21.0 ya distribuido;
+publicada el 04/10, respeta la antigüedad mínima de siete días. No instala
+herramientas globales ni otro plugin de Neovim. Sus dependencias transitivas
+quedan fijadas por pnpm, con scripts de instalación bloqueados.
+
+El servidor HTML existente no valida el marcado. Esta herramienta permite
+señalar atributos desconocidos (`idddd`), ids repetidos, etiquetas desconocidas
+y cierres incorrectos. La alternativa sencilla es validar manualmente fuera
+del editor; compensa incorporarla para proporcionar diagnósticos al alumnado.
+Fuente y API: https://html-validate.org/guide/api/getting-started.html.
+
+El contenido se valida localmente por stdin, incluso sin guardar, sin enviar
+archivos a servicios externos. Una configuración fija evita cargar plugins o
+scripts de configuración del proyecto que se esté editando. Se priorizan
+errores del marcado sobre preferencias de estilo y no se exige documento
+completo a un fragmento HTML.
+
+Se añadieron doce paquetes nuevos (dependencia directa y transitivas), sin
+actualizar los servidores existentes. Se ignoran reglas de estilo y se aceptan
+custom elements con guion. Pruebas funcionales: atributos, duplicados, cierre
+de input, elementos desconocidos, limpieza al corregir, fragmentos, caracteres
+Unicode y resultados obsoletos. La comunicación Node/Neovim requiere ejecutar
+estas pruebas fuera del sandbox: dentro, Node no devuelve stdout mediante
+vim.system en este entorno; fuera sí, comprobado con un proceso mínimo.
+
+Auditoría pnpm del 23/10: 48 dependencias, cero avisos conocidos. La prueba
+específica de Neovim pasa y la activación en la sesión del señor produjo tres
+diagnósticos HTML, sin modificar su texto.
+
 ## Emmet con la misma tecla de las plantillas (2026-10-22)
 
 Dependencia directa `mattn/emmet-vim`, commit

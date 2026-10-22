@@ -336,7 +336,7 @@ EOF
   [ -x "$NODE_LOCAL" ] && [ "$("$NODE_LOCAL" --version)" = "v$ENTORNO_NODE_VERSION" ] \
     || { printf '%s\n' "FALTA: Node local verificado." >&2; exit 1; }
   WEB_LSP_BIN="$PROJECT_ROOT/tools/lsp-web/node_modules/.bin"
-  for ejecutable in typescript-language-server vscode-html-language-server \
+  for ejecutable in html-validate typescript-language-server vscode-html-language-server \
     vscode-css-language-server vscode-json-language-server tailwindcss-language-server
   do
     [ -x "$WEB_LSP_BIN/$ejecutable" ] || {

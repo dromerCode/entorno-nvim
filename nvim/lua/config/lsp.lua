@@ -470,7 +470,10 @@ function M.setup()
     end,
   })
 
-  if profile.has("web") then enable_web_servers() end
+  if profile.has("web") then
+    enable_web_servers()
+    if profile.has("diagnostics") then require("config.html_validation").setup() end
+  end
   if profile.has("lua") then enable_lua_server() end
   if profile.has("python") then enable_python_server() end
   if profile.has("bash") then enable_bash_server() end

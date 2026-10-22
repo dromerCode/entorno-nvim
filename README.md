@@ -387,6 +387,10 @@ externo. Cabecera y pie usan `module`, `centre` y `teacher` del YAML. Véase
 
 ## LSP
 
+HTML incluye validación local de atributos, ids duplicados y cierres incorrectos,
+también antes de guardar. Los errores aparecen subrayados; `gl` muestra el
+detalle y `[d` / `]d` permiten recorrerlos. Se instala con las herramientas web.
+
 LuaLS 3.19.0, los servidores web fijados, Pyright 1.1.411 y Bash Language
 Server 5.6.0 se instalan de forma aislada, sin Mason ni npm global. Véase
 [LSP y completado](docs/lsp.md).

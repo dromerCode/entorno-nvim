@@ -13,6 +13,7 @@ for _, module in ipairs({
   "config.autocmds",
   "config.lazy",
   "config.lsp",
+  "config.html_validation",
   "config.completion",
   "config.markdown_pdf",
 }) do
