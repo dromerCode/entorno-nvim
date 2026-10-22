@@ -372,6 +372,7 @@ Server 5.6.0 se instalan de forma aislada, sin Mason ni npm global. Véase
 | `]b` / `[b` / `:bd` | Archivo siguiente / anterior / cerrar archivo |
 | `gl` / `[d` / `]d` | Errores de la línea / anterior / siguiente |
 | `Ctrl-j` en insertar | Elegir o expandir snippets del lenguaje |
+| `Ctrl-j` en insertar, HTML/CSS | También expandir Emmet: `p*5`, `p#average`, `ul>li*3` |
 | `Alt-Shift-j/k` / `Cmd-Shift-↓/↑` | Mover líneas o selecciones |
 | `<leader>gg` | Lazygit |
 | `<leader>mp` / `<leader>mv` | Generar PDF / generar y visualizar |

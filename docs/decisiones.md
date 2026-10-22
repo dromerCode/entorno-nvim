@@ -1,5 +1,30 @@
 # Decisiones e inventario
 
+## Emmet con la misma tecla de las plantillas (2026-10-22)
+
+Dependencia directa `mattn/emmet-vim`, commit
+`92ef2f74f4093edc99db5e9e4cf7e40116a85bd6`, fijado también en lazy-lock.json.
+Resuelve abreviaturas HTML/CSS, multiplicación y estructuras anidadas que las
+plantillas estáticas no interpretan. Alternativa sencilla: snippets y duplicar
+líneas; compensa añadirlo para aprender y escribir HTML con menos pasos.
+No añade dependencias transitivas, builds, Node ni servidor LSP.
+Fuente e instrucciones revisadas: https://github.com/mattn/emmet-vim.
+
+Se carga solo en HTML/CSS y no instala sus atajos globales. Ctrl+j da prioridad
+a una plantilla propia exacta; si no existe, expande Emmet. En línea vacía
+conserva el selector de plantillas. Los otros lenguajes conservan mini.snippets,
+incluido `clg` en JS/TS. Tab y los saltos Ctrl+l/h no se reasignan.
+El plugin se instala con `scripts/instalar-plugins.sh` dentro del estado aislado
+del repositorio; no se modifica la configuración activa de Neovim.
+
+Verificación 22/10: `tests/comprobar_emmet.lua` pasa pulsando Ctrl+j mediante
+feedkeys: repetición, ids, bloque DAW, script, `!`, `main`, `clg` en JS/TS y
+plantilla/CSS Emmet dentro de una regla. Añadida a `scripts/comprobar.sh`.
+Núcleo y edición pasan; checkhealth termina sin entradas ERROR, con avisos
+de herramientas opcionales, tipos de archivo, depreciación y paquetes.
+El sandbox bloquea sockets de Neovim/fzf; núcleo/edición/salud se comprobaron
+fuera del sandbox, conservando los directorios aislados del repositorio.
+
 ## Objetivos entendidos
 
 El objetivo técnico es construir una configuración Lua modular para Neovim

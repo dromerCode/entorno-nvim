@@ -1,8 +1,31 @@
 local M = {}
 
+function M.expand()
+  local snippets = require("mini.snippets")
+  local ft = vim.bo.filetype
+  if ft == "html" or ft == "css" then
+    local col = vim.api.nvim_win_get_cursor(0)[2]
+    local token = vim.api.nvim_get_current_line():sub(1, col):match("%S+$")
+    -- Las plantillas propias exactas tienen prioridad (!, main, centrar...).
+    -- El resto se interpreta como Emmet, sin coincidencias difusas parciales.
+    local exact = token == nil
+    for _, item in ipairs(snippets.expand({ match = false, insert = false }) or {}) do
+      if item.prefix == token then exact = true; break end
+    end
+    if not exact then
+      require("lazy").load({ plugins = { "emmet-vim" } })
+      local keys = "<C-r>=emmet#util#closePopup()<CR><C-r>=emmet#expandAbbr(0, '')<CR>"
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(keys, true, false, true), "in", false)
+      return
+    end
+  end
+  snippets.expand()
+end
+
 function M.setup()
   local snippets = require("mini.snippets")
   snippets.setup({
+    mappings = { expand = "" },
     snippets = {
       snippets.gen_loader.from_lang({
         lang_patterns = {
@@ -39,6 +62,10 @@ function M.setup()
         end))
       end,
     },
+  })
+
+  vim.keymap.set("i", "<C-j>", M.expand, {
+    desc = "Expandir plantilla o Emmet (HTML/CSS)", silent = true,
   })
 
   vim.api.nvim_create_user_command("DocumentarFuncion", function()

@@ -208,6 +208,31 @@ Los campos vacíos no muestran puntos ni cuadrados. Los archivos usan la forma
 `prefix`/`body`/`description` de los snippets de VS Code, aunque las
 transformaciones y el campo `scope` de VS Code no se aplican automáticamente.
 
+En HTML y CSS, **Ctrl+j también expande Emmet**. Las plantillas propias con
+prefijo exacto tienen prioridad (`!`, `main`, `centrar`...); una línea vacía
+sigue mostrando las plantillas. En JavaScript/TypeScript, `clg` y `Ctrl+j`
+siguen insertando `console.log`. No escriba `<` antes de una abreviatura:
+
+| Escribir en inserción y pulsar Ctrl+j | Resultado |
+| --- | --- |
+| `p*5` | Cinco párrafos vacíos |
+| `p#average` | `<p id="average"></p>` |
+| `p#nota$*5` | Cinco párrafos con ids `nota1`…`nota5` |
+| `ul#student-list` | Lista vacía con ese id |
+| `ul>li*3` | Lista con tres elementos |
+
+Para el ejemplo de notas de DAW, escriba esta línea y pulse Ctrl+j:
+
+```text
+main>h1{Notas de 2.º DAW}+p#average+p#passed+p#best+ul#student-list
+```
+
+En otra línea, `script[type=module src=/src/main.ts]` y Ctrl+j generan el
+script externo. `ci"` en modo normal cambia el contenido entre comillas.
+Tab conserva el completado y sus saltos habituales; no activa Emmet.
+Emmet no crea una sesión de campos de mini.snippets: para editar sus atributos
+puede salir con Esc y usar `ci"`. Referencia: [sintaxis Emmet](https://docs.emmet.io/abbreviations/syntax/).
+
 En JavaScript y TypeScript también puede escribir `/**` justo encima de una
 función y pulsar `Enter`, o usar `Espacio l j` desde la línea de la función.
 El servidor TypeScript genera los nombres de parámetros y el retorno cuando

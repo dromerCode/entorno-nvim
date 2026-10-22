@@ -2,6 +2,9 @@
 
 ## Sin publicar
 
+- Emmet en HTML/CSS con `Ctrl+j`, compartido con las plantillas existentes.
+  `clg` en JS/TS y `!` en HTML conservan su expansión. Plugin fijado por commit,
+  sin Node ni servidor adicional. Tab mantiene su comportamiento.
 - **Perfil único del alumnado**: `instalar-alumno.sh` instala web, Bash,
   Python y Docker sin preguntar. `--perfil dwec`/`si` se aceptan y equivalen.
 - Menú de `Espacio` reorganizado al estilo LazyVim: `b` archivos abiertos,
