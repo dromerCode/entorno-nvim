@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-SCRIPT_DIR=$(CDPATH= cd "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd "$(dirname "$0")" && pwd)
 PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
 . "$SCRIPT_DIR/lib/versiones.sh"
 . "$SCRIPT_DIR/lib/comun.sh"
@@ -127,7 +127,7 @@ else
 fi
 
 if [ -x "$NVIM_BIN" ] && [ "$("$NVIM_BIN" --version | sed -n '1s/^NVIM v//p')" = "$ENTORNO_NVIM_VERSION" ] \
-  && { [ "$(uname -s):$(uname -m)" != Linux:x86_64 ] || [ "$(entorno_sha256 "$NVIM_BIN")" = "$ENTORNO_NVIM_BINARY_SHA256" ]; }; then
+  && { [ -z "$ENTORNO_NVIM_PLATFORM" ] || [ "$(entorno_sha256 "$NVIM_BIN")" = "$ENTORNO_NVIM_PLATFORM_BINARY_SHA256" ]; }; then
   ok Neovim "$NVIM_BIN ($ENTORNO_NVIM_VERSION)"
 else falta Neovim "ejecuta scripts/instalar-neovim.sh"; fi
 if [ -x "$TREE_SITTER_BIN" ] && [ "$("$TREE_SITTER_BIN" --version | awk '{ print $2 }')" = "$ENTORNO_TREE_SITTER_VERSION" ] \

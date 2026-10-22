@@ -176,3 +176,20 @@ entorno_explicar_ruta_windows() {
     '    cd ~/entorno-nvim && ./scripts/instalar-alumno.sh' \
     '  Tus proyectos también funcionan mejor dentro de ~ que en /mnt/c.'
 }
+
+# Artefactos oficiales de Neovim Linux. Vacío en plataformas no auditadas.
+ENTORNO_NVIM_PLATFORM=
+ENTORNO_NVIM_ARCHIVE_SHA256=
+ENTORNO_NVIM_PLATFORM_BINARY_SHA256=
+case "$ENTORNO_OS:$ENTORNO_ARCH" in
+  Linux:x86_64)
+    ENTORNO_NVIM_PLATFORM=linux-x86_64
+    ENTORNO_NVIM_ARCHIVE_SHA256=$ENTORNO_NVIM_LINUX_X64_SHA256
+    ENTORNO_NVIM_PLATFORM_BINARY_SHA256=$ENTORNO_NVIM_BINARY_SHA256
+    ;;
+  Linux:aarch64 | Linux:arm64)
+    ENTORNO_NVIM_PLATFORM=linux-arm64
+    ENTORNO_NVIM_ARCHIVE_SHA256=$ENTORNO_NVIM_LINUX_ARM64_SHA256
+    ENTORNO_NVIM_PLATFORM_BINARY_SHA256=$ENTORNO_NVIM_LINUX_ARM64_BINARY_SHA256
+    ;;
+esac

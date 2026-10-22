@@ -385,3 +385,71 @@ El menú de `Espacio` toma la organización de LazyVim sin copiar su código:
 ejecutar el archivo, `u` opciones. `Esc` limpia la búsqueda, como en
 LazyVim; `Espacio d`, `h` y `q` salen del primer nivel. Los avisos se
 limitan a una línea: si no caben, Neovim pide ENTER y se come las teclas.
+
+
+## 2026-10-08 — Instalador de alumnado compatible con Linux ARM64
+
+El mismo `instalar-alumno.sh` admite x86_64, aarch64 y arm64, incluido WSL2
+sobre Windows ARM. Se eliminan las dos restricciones x86_64 (entrada y
+Neovim); Node ya disponía de artefacto ARM64 fijado. No se añaden dependencias
+ni se cambia el carril completo del profesor (LuaLS/Tree-sitter).
+
+Neovim conserva la versión 0.12.4: tarball ARM64 oficial con digest publicado
+por la API de GitHub, comprobado sobre la descarga, y SHA-256 del binario
+extraído fijado. Se verifica también el binario existente antes de continuar.
+Los paquetes apt/pacman conservan sus nombres y su consentimiento; el gestor
+selecciona la arquitectura nativa. ARM32 se rechaza antes de modificar nada.
+No se certifica una instalación real en WSL ARM64 sin el portátil del alumno.
+Fuente: https://github.com/neovim/neovim/releases/tag/v0.12.4.
+
+Validación: `sh -n` de los scripts modificados, `git diff --check`, pruebas
+interactivas existentes (`tests/comprobar_instalador_entrada.py`) y
+`python3 tests/comprobar_arm.py /tmp/entorno-nvim-arm64.tar.gz` pasadas.
+La última usa uname simulado y el tarball oficial descargado: comprueba
+entrada del instalador en modo lectura, extracción, SHA-256 y rechazo de
+una descarga corrupta. No ejecuta el binario ARM ni instala paquetes.
+En la primera pasada ShellCheck no estaba disponible; se añadió una
+comprobación con el binario oficial temporal en la segunda revisión.
+
+
+### Segunda revisión y publicación — 2026-10-08
+
+- Se requiere Python 3 para ejecutar ejercicios; el paquete se llama `python3`
+  en Debian/Ubuntu y `python` en Arch/CachyOS. Es una dependencia directa del
+  flujo Python, no un paquete npm ni una instalación global añadida aquí.
+- El perfil se guarda tras finalizar, la comprobación respeta XDG alternativo
+  y detecta también Docker Compose ausente. El arranque falla si Neovim
+  registra un error, y el Neovim existente se verifica antes de ejecutarlo.
+- README: un solo script para x86_64/ARM64, primera instalación, recuperación
+  tras el rechazo ARM y actualización sin recomendar descartar cambios.
+- Instalación limpia real x86_64 en copia de archivos versionados bajo `/tmp`,
+  con HOME temporal y `--yes --sin-sistema`: Neovim 0.12.4, Node 24.21.0,
+  plugins fijados, LSP web/Bash/Python/Docker, diccionario y lanzador preparados.
+  Repetición y `--comprobar` pasadas. No se ejecutaron apt/pacman ni sudo.
+  El anfitrión es Omarchy x86_64; no equivale a probar Debian/WSL limpios.
+- Pruebas funcionales LSP web y Python pasadas. Dentro de la sandbox los
+  servidores se cerraban al iniciar; repetidas fuera del aislamiento de
+  procesos sobre la misma copia temporal pasaron. `checkhealth` sin ERROR;
+  hay avisos de proveedores opcionales y de plugins empaquetados.
+- ARM64: tarballs oficiales Neovim/Node descargados y hashes fijados
+  comprobados, Node/Corepack/npm presentes, extracción Neovim y rechazo de
+  corrupción pasados. Detección y comandos de paquetes simulados para
+  x86_64/aarch64/arm64 en Debian/Ubuntu/Arch/CachyOS; ARM32 rechazado.
+  No se han ejecutado binarios ARM ni instalado sobre WSL ARM real.
+- Pruebas de entrada/cancelación, comprobación con XDG alternativo y Docker
+  Compose ausente, `sh -n` y `git diff --check` pasadas. ShellCheck 0.11.0
+  oficial descargado y verificado en `/tmp`: análisis con `-x -P scripts
+  -e SC2034,SC1007` pasado (excluye variables de bibliotecas compartidas y
+  el patrón CDPATH vacío preexistente en auxiliares).
+
+Pendiente de campo: el alumno debe probar instalación y uso en WSL2 ARM64;
+si falla, conservar mensaje completo, `uname -m` y distribución, sin secretos.
+
+
+### Aclaración del actualizador — 2026-10-08
+
+Revisado `scripts/actualizar.sh`: descarga con `git pull --ff-only` y después
+invoca el instalador de alumnado. Si la instalación ARM falló antes de guardar
+el perfil, la rama por defecto también invoca `instalar-alumno.sh`, con pausa
+Enter; no el instalador completo del profesor. El README recomienda ahora
+el actualizador también para ese caso. Git manual solo si el script no existe.

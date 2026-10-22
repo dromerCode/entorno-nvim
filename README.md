@@ -18,6 +18,22 @@ Elija **su caso** y copie los comandos en una terminal de Linux (en Windows,
 en la terminal de **WSL2/Ubuntu**, dentro de su carpeta personal `~`, nunca en
 `/mnt/c`).
 
+**El mismo `scripts/instalar-alumno.sh` sirve para Intel/AMD (x86_64) y
+ARM64 (por ejemplo, Snapdragon con Windows y WSL2).** Detecta la arquitectura
+y descarga Neovim y Node nativos, con versiones y SHA-256 fijados. No hay que
+elegir otro script ni pasar una opción ARM. Los paquetes del sistema se
+obtienen del gestor de Linux, que selecciona la arquitectura correspondiente.
+
+En Windows, primero debe tener **WSL2 con Ubuntu o Debian**; estos comandos
+se ejecutan en su terminal de Linux, no en PowerShell. ARM de 32 bits y Windows
+sin WSL no están admitidos por este instalador. El instalador general del
+profesor (`instalar.sh`, con PDF/LuaLS/Tree-sitter) conserva sus propios límites.
+
+**Validación:** instalación y repetición reales del carril de alumnado en
+Linux x86_64; detección simulada y artefactos oficiales verificados para
+ARM64. La instalación completa en un portátil WSL2 ARM64 sigue pendiente;
+no se presenta como probada en ese hardware.
+
 ### Caso 1: primera vez (nunca lo ha instalado)
 
 ```sh
@@ -32,6 +48,25 @@ JavaScript, TypeScript, React, Tailwind, Bash, Python, Dockerfile y Docker
 Compose. Si faltan programas del sistema, los muestra y pregunta antes de
 instalarlos (pedirá su contraseña). Al terminar ofrece añadir `entorno-dev`
 al PATH: responda `s`.
+
+### Si falló la instalación anterior en ARM64
+
+Si ya descargó el repositorio y el instalador anterior rechazó ARM, no hace
+falta borrar su carpeta. Desde WSL2, guarde su trabajo y ejecute:
+
+```sh
+cd ~/entorno-nvim
+./scripts/actualizar.sh
+```
+
+El actualizador descarga los cambios y ejecuta el instalador compatible.
+Funciona aunque la instalación anterior no llegara a guardar el perfil:
+en ese caso pide Enter para comenzar. Si no existe `scripts/actualizar.sh`,
+use el caso 3 de abajo.
+
+Si Git avisa de cambios locales, consérvelos o consulte al profesor antes de
+descartarlos. Si falla de nuevo, copie el mensaje completo y la salida de
+`uname -m` y `cat /etc/os-release` (sin datos personales ni credenciales).
 
 ### Caso 2: ya lo tenía instalado y tiene `scripts/actualizar.sh`
 
@@ -53,12 +88,13 @@ Solo la primera vez:
 
 ```sh
 cd ~/entorno-nvim
-git restore . && git pull --ff-only && sh scripts/actualizar.sh
+git pull --ff-only
+sh scripts/actualizar.sh
 ```
 
-`git restore .` descarta cambios accidentales en archivos del entorno (por
-ejemplo, `^M` de Windows o `lazy-lock.json`). No afecta a sus proyectos.
-Desde entonces, use el caso 2.
+Si Git avisa de cambios locales (por ejemplo, finales de línea `^M` o
+`lazy-lock.json`), consulte al profesor antes de descartarlos. Desde entonces,
+use el caso 2.
 
 ### Caso 4: empezar de cero (si algo sigue fallando)
 
@@ -211,11 +247,12 @@ Corrige archivos alterados por finales de línea de Windows, restaura
 `nvim/lazy-lock.json` si cambió sin querer, ofrece cerrar las sesiones tmux
 antiguas, hace `git pull --ff-only` y repite la instalación. Para el entorno completo del profesor: `./scripts/actualizar.sh --completo`.
 
-**Primera vez en copias anteriores a `actualizar.sh`** (descarta cambios locales
-en archivos del entorno, que no deben editarse):
+**Primera vez en copias anteriores a `actualizar.sh`** (desde la carpeta del
+repositorio; conserve cualquier cambio local si Git impide avanzar):
 
 ```sh
-git restore . && git pull --ff-only && sh scripts/actualizar.sh
+git pull --ff-only
+sh scripts/actualizar.sh
 ```
 
 `--ff-only` solo avanza la copia hasta la versión publicada: si hubiera

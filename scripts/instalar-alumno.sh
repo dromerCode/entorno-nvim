@@ -1,7 +1,7 @@
 #!/bin/sh
 set -eu
 
-SCRIPT_DIR=$(CDPATH= cd "$(dirname "$0")" && pwd)
+SCRIPT_DIR=$(CDPATH='' cd "$(dirname "$0")" && pwd)
 PROJECT_ROOT=$(dirname "$SCRIPT_DIR")
 . "$SCRIPT_DIR/lib/versiones.sh"
 . "$SCRIPT_DIR/lib/rutas.sh"
@@ -29,6 +29,7 @@ USO
 
   Prepara el entorno completo del alumnado: HTML, CSS, JavaScript,
   TypeScript, React, Tailwind, Bash, Python, Dockerfile y Docker Compose.
+  Detecta Linux x86_64 y ARM64, incluido Windows con WSL2.
   Si faltan programas del sistema, te ofrecerá instalarlos. Para
   actualizar más adelante: ./scripts/actualizar.sh
 
@@ -92,9 +93,9 @@ done
 }
 
 case "$ENTORNO_OS:$ENTORNO_ARCH" in
-  Linux:x86_64) ;;
+  Linux:x86_64 | Linux:aarch64 | Linux:arm64) ;;
   *)
-    printf 'Error: el instalador de alumnado admite Linux x86_64; detectado %s %s.\n' \
+    printf 'Error: el instalador de alumnado admite Linux x86_64 y ARM64 (también WSL2); detectado %s %s.\n' \
       "$ENTORNO_OS" "$ENTORNO_ARCH" >&2
     exit 1
     ;;
@@ -145,11 +146,9 @@ else
       exit 0
     fi
   fi
-  mkdir -p "$(dirname "$PERFIL_GUARDADO")"
-  printf '%s\n' "$perfil" > "$PERFIL_GUARDADO"
 fi
 
-herramientas='git tmux curl tar xz fzf rg shellcheck'
+herramientas='git tmux curl tar xz fzf rg shellcheck python3'
 faltan=
 for herramienta in $herramientas; do
   command -v "$herramienta" >/dev/null 2>&1 || faltan="$faltan $herramienta"
@@ -219,7 +218,11 @@ if [ -n "$faltan" ]; then
     arch | cachyos | omarchy)
       paquetes=
       for herramienta in $faltan; do
-        case "$herramienta" in rg) paquetes="$paquetes ripgrep" ;; *) paquetes="$paquetes $herramienta" ;; esac
+        case "$herramienta" in
+          rg) paquetes="$paquetes ripgrep" ;;
+          python3) paquetes="$paquetes python" ;;
+          *) paquetes="$paquetes $herramienta" ;;
+        esac
       done
       comando="sudo pacman -S --needed${paquetes} ca-certificates"
       ;;
@@ -293,6 +296,10 @@ else
   "$SCRIPT_DIR/instalar-neovim.sh"
 fi
 
+entorno_fase "Integridad de Neovim"
+. "$SCRIPT_DIR/lib/comun.sh"
+entorno_verificar_sha256 "$NVIM_LOCAL" "$ENTORNO_NVIM_PLATFORM_BINARY_SHA256"
+
 version_instalada=$("$NVIM_LOCAL" --version | sed -n '1s/^NVIM v//p')
 [ "$version_instalada" = "$ENTORNO_NVIM_VERSION" ] || {
   printf 'Error: se esperaba Neovim %s y se encontro %s.\n' \
@@ -316,7 +323,7 @@ if [ "$solo_comprobar" -eq 1 ]; then
   plugins_faltan=0
   while IFS=' ' read -r plugin commit; do
     [ -n "$plugin" ] || continue
-    actual=$(git -C "$PROJECT_ROOT/.xdg/$ENTORNO_NVIM_VERSION/data/nvim/lazy/$plugin" rev-parse HEAD 2>/dev/null || true)
+    actual=$(git -C "${NVIM_XDG_ROOT:-$PROJECT_ROOT/.xdg/$ENTORNO_NVIM_VERSION}/data/nvim/lazy/$plugin" rev-parse HEAD 2>/dev/null || true)
     [ "$actual" = "$commit" ] || plugins_faltan=1
   done <<EOF
 $(sed -n 's/^[[:space:]]*"\([^"]*\)":.*"commit": "\([0-9a-f]*\)".*/\1 \2/p' "$PROJECT_ROOT/nvim/lazy-lock.json")
@@ -341,8 +348,10 @@ EOF
   PYRIGHT_LOCAL="$PROJECT_ROOT/tools/lsp-python/node_modules/.bin/pyright-langserver"
   [ -x "$BASHLS_LOCAL" ] || { printf '%s\n' "FALTA: Bash Language Server; ejecuta ./scripts/instalar-alumno.sh" >&2; exit 1; }
   [ -x "$PYRIGHT_LOCAL" ] || { printf '%s\n' "FALTA: Pyright; ejecuta ./scripts/instalar-alumno.sh" >&2; exit 1; }
-  [ -x "$PROJECT_ROOT/tools/lsp-docker/node_modules/.bin/docker-langserver" ] \
-    || { printf '%s\n' "FALTA: servidores de Docker; repite ./scripts/instalar-alumno.sh" >&2; exit 1; }
+  for ejecutable in docker-langserver docker-compose-langserver; do
+    [ -x "$PROJECT_ROOT/tools/lsp-docker/node_modules/.bin/$ejecutable" ] \
+      || { printf 'FALTA: %s; repite ./scripts/instalar-alumno.sh\n' "$ejecutable" >&2; exit 1; }
+  done
   if [ -f "${NVIM_XDG_ROOT:-$PROJECT_ROOT/.xdg/$ENTORNO_NVIM_VERSION}/data/nvim/site/spell/es.utf-8.spl" ]; then
     printf '%s\n' 'OK: diccionario español de ortografía.'
   else
@@ -360,7 +369,7 @@ entorno_ortografia_ok=1
 "$SCRIPT_DIR/instalar-ortografia.sh" || entorno_ortografia_ok=0
 entorno_fase "Arranque de Neovim"
 ENTORNO_PERFIL="$perfil" ENTORNO_IA=0 ENTORNO_SIN_LISTEN=1 NVIM_BIN="$NVIM_LOCAL" \
-  "$SCRIPT_DIR/arrancar.sh" --headless "+lua print('OK: Neovim alumno arranca')" +qa
+  "$SCRIPT_DIR/arrancar.sh" --headless "+lua if vim.v.errmsg ~= '' then vim.api.nvim_err_writeln(vim.v.errmsg); vim.cmd('cquit 1') end; print('OK: Neovim alumno arranca')" +qa
 printf '\n'
 entorno_fase "Lanzador entorno-dev"
 entorno_lanzador_ok=1
@@ -370,6 +379,9 @@ path_preparado=0
 case ":$PATH:" in
   *":$HOME/.local/bin:"*) path_preparado=1 ;;
 esac
+
+mkdir -p "$(dirname "$PERFIL_GUARDADO")"
+printf '%s\n' "$perfil" > "$PERFIL_GUARDADO"
 
 entorno_resumen_instalacion "$perfil" alumnado
 

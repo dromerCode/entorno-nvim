@@ -7,6 +7,17 @@
 
 ## Instalación esencial recomendada (Ubuntu, Pop!_OS y WSL2)
 
+El mismo instalador detecta Linux x86_64 y ARM64 (`aarch64` o `arm64`),
+incluido WSL2 en Windows con Snapdragon. Selecciona Neovim y Node nativos
+y verifica sus SHA-256. Los paquetes del sistema se instalan mediante el
+gestor de la distribución, que elige su arquitectura; conserva la pregunta
+antes de usar `sudo`. ARM de 32 bits y Windows sin WSL no están admitidos.
+
+En WSL, clone el repositorio dentro de su carpeta de Linux (`~`), no en
+`/mnt/c`. La instalación completa en WSL ARM64 queda pendiente de una prueba
+en un equipo real; se han verificado el artefacto oficial y la selección de
+arquitectura sin ejecutar binarios ARM en el equipo x86_64.
+
 ```sh
 git clone https://github.com/isaiasfl/entorno-nvim.git
 cd entorno-nvim
@@ -18,14 +29,15 @@ más adelante: `./scripts/actualizar.sh`. Si faltan programas del sistema,
 muestra el comando y pregunta antes de usar `sudo`.
 
 Este carril instala los paquetes básicos que falten (`git`, `tmux`, `fzf`,
-`fd-find`, `ripgrep`, `curl`, `tar`, `xz-utils` y certificados), descarga
-Neovim y Node 24 locales y verificados e instala los plugins y servidores de
+`fd-find`, `ripgrep`, `curl`, `tar`, `xz-utils`, `shellcheck`, `python3` y
+certificados), descarga Neovim y Node 24 locales y verificados e instala los plugins y servidores de
 HTML, CSS, JSON, JavaScript, TypeScript y Tailwind con versiones fijadas. No
 requiere el Neovim antiguo de Ubuntu y no usa un posible `nvim.exe` de Windows
 heredado por WSL2.
 
-El perfil **SI** (Sistemas Informáticos) instala en su lugar Bash Language
-Server, ShellCheck y Pyright.
+El mismo perfil instala también Bash Language Server, ShellCheck, Python 3,
+Pyright y los servidores de Dockerfile y Docker Compose; DWEC y SI reciben
+el mismo entorno.
 
 No instala Tree-sitter CLI, parsers externos, Pandoc, navegador, Poppler ni
 LazyGit. Tampoco instala clientes de IA ni gestiona credenciales. Para comprobar
@@ -61,7 +73,8 @@ Guarda tu trabajo y, desde la carpeta `entorno-nvim`:
 ```
 
 La primera vez, si tu copia aún no tiene `actualizar.sh`:
-`git restore . && git pull --ff-only && sh scripts/actualizar.sh`.
+`git pull --ff-only && sh scripts/actualizar.sh`. Si Git avisa de cambios
+locales, consérvelos o consulte al profesor antes de descartarlos.
 
 ### Qué te ayuda
 
@@ -246,7 +259,8 @@ El entorno admite rutas con espacios; escríbelas entre comillas.
 **Aparece `^M` al final de las líneas o todos los archivos salen modificados.**
 Git para Windows convirtió los finales de línea. Ejecuta
 `./scripts/actualizar.sh` (o, la primera vez,
-`git restore . && git pull --ff-only && sh scripts/actualizar.sh`): los corrige.
+`git pull --ff-only && sh scripts/actualizar.sh`): los corrige. Si Git
+impide avanzar por cambios locales, consérvelos o consulte al profesor.
 
 **El entorno está en `/mnt/c/...` (WSL2).**
 Clónalo en tu carpeta de Linux (`cd ~ && git clone ...`): las carpetas de
