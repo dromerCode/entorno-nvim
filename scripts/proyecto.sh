@@ -248,7 +248,10 @@ case "$MAX_DEPTH" in
 esac
 
 if [ "$#" -eq 1 ]; then
-  project=$(project_from_directory "$1")
+  # Una ruta explicita (incluido «.») es la carpeta de trabajo solicitada.
+  # Solo el selector busca raices Git; subir aqui mezclaba ejercicios de un
+  # mismo repositorio y reconectaba la sesion de su carpeta superior.
+  project=$(canonical_directory "$1") || fail "no existe el directorio: $1"
 else
   project=$(find_projects)
 fi

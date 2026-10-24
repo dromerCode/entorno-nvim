@@ -2,6 +2,10 @@
 
 ## Sin publicar
 
+- `entorno-dev .` respeta la carpeta actual aunque sea una subcarpeta de un
+  repositorio Git. Antes subía a su raíz y podía reutilizar la sesión de otro
+  ejercicio. Las rutas explícitas tienen sesión propia; el selector conserva
+  la búsqueda de repositorios. Documentado el alias que transmite argumentos.
 - Validación HTML local con html-validate 11.16.2: atributos mal escritos,
   ids repetidos, etiquetas desconocidas y cierres incorrectos. Diagnósticos
   automáticos incluso sin guardar, visibles con `gl`, sin analizar estilo ni

@@ -13,7 +13,7 @@ y este layout:
 
 `entorno-dev` usa de forma predeterminada el wrapper aislado
 `scripts/arrancar.sh`; no depende de `~/.config/nvim`. El panel de edición
-arranca Neovim sin argumentos y situado en la raíz del proyecto, por lo que
+arranca Neovim sin argumentos y situado en la carpeta solicitada, por lo que
 muestra el dashboard IFL. Desde el dashboard, `e` abre el árbol de archivos;
 en cualquier buffer, `<leader>e` lo abre o cierra.
 
@@ -30,6 +30,11 @@ Para inspeccionar o recuperar el servidor predeterminado se usan, por ejemplo,
 `tmux -L entorno-nvim list-sessions` y `tmux -L entorno-nvim attach`.
 `proyecto.sh` solo crea el layout cuando la sesión no existe: al reconectar
 conserva paneles, procesos, tamaños y ventanas.
+Una ruta explícita (`entorno-dev .` o `entorno-dev /ruta/ejercicio`) se respeta
+incluso si es una subcarpeta de un repositorio Git: cada carpeta tiene su
+sesión. `--elegir` sigue seleccionando raíces de repositorios. Al reconectar
+con una sesión existente se recupera su estado; no se cambia a la fuerza el
+directorio de un editor o una terminal que ya estaban abiertos.
 Al crear una sesión desconectada usa las dimensiones del terminal que la lanza;
 desde el selector emergente toma las del cliente tmux de origen. Así los
 porcentajes iniciales no se deforman al conectar una terminal grande.

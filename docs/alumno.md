@@ -204,6 +204,20 @@ O en un solo paso, desde cualquier carpeta:
 /ruta/a/entorno-nvim/bin/entorno-dev /ruta/a/mi-proyecto
 ```
 
+Con el comando instalado en el PATH, basta con `entorno-dev .` desde la carpeta
+que quieres abrir. El punto significa «esta carpeta», también si es un
+ejercicio dentro de un repositorio Git; no sube a la raíz del repositorio.
+En WSL, ejecútalo en la terminal Linux después de comprobar la ruta con `pwd`.
+
+Si prefieres `entorno`, un alias de Bash/Zsh que conserva la carpeta y los
+argumentos es `alias entorno='entorno-dev'`. Un alias que antes haga
+`cd ~/entorno-nvim` cambia lo que significa `.` y abre la carpeta equivocada.
+Comprueba qué ejecuta el tuyo con `type entorno`. Para descartar el alias,
+prueba directamente `entorno-dev .`.
+
+Si ya hay una sesión de esa carpeta, recupera sus paneles y archivos abiertos.
+Si dentro de ella cambiaste de directorio, reconectar conserva ese estado.
+
 - Sin opciones usa el perfil del alumnado, sin IA: editor arriba y terminal
   abajo.
 - `--perfil inicial` o `--perfil profesor` cambian el perfil solo para esa sesión.

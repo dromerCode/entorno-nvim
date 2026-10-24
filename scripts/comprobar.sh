@@ -44,6 +44,7 @@ export ENTORNO_NVIM_EXPECTED_VERSION="${NVIM_EXPECTED_VERSION:-}"
 "$PROJECT_ROOT/tests/comprobar_temas.sh"
 
 "$PROJECT_ROOT/tests/comprobar_tmux.sh"
+sh "$PROJECT_ROOT/tests/comprobar_directorio.sh"
 "$PROJECT_ROOT/tests/comprobar_activacion.sh"
 "$PROJECT_ROOT/tests/comprobar_markdown_pdf.sh"
 "$PROJECT_ROOT/tests/comprobar_instalacion.sh"
