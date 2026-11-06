@@ -399,7 +399,7 @@ Server 5.6.0 se instalan de forma aislada, sin Mason ni npm global. Véase
 
 | Mapa | Acción |
 | --- | --- |
-| `<leader>?` / F1 en modo normal | Chuleta de teclas, errores, movimientos y snippets |
+| `<leader>?` / F1 en modo normal | Ayuda rápida; dentro, c abre la chuleta ampliada y w la web |
 | `Espacio r` | Ejecutar este archivo (Bash, Python, JS, TS) en la terminal de abajo |
 | `Espacio s` | Insertar plantilla: lista con buscador |
 | `Espacio l` | Código: definición, documentación, usos, renombrar, arreglos, formatear |

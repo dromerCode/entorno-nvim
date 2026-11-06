@@ -140,6 +140,8 @@ function M.setup()
       "  t        Activar / desactivar",
       "",
       "Espacio    Menú de acciones; z muestra ayuda de pliegues",
+      "c          Abrir chuleta ampliada en tmux (requiere Internet la primera vez)",
+      "w          Abrir chuleta original en el navegador",
       "q / Esc    Cerrar esta ayuda",
     }
     local buf = vim.api.nvim_create_buf(false, true)
@@ -155,6 +157,13 @@ function M.setup()
       style = "minimal", border = "rounded", title = " Teclas habituales ",
     })
     vim.wo[win].wrap = true
+    vim.keymap.set("n", "c", function()
+      vim.api.nvim_win_close(win, true)
+      require("config.chuleta").open()
+    end, { buffer = buf, silent = true, desc = "Abrir chuleta ampliada" })
+    vim.keymap.set("n", "w", function()
+      require("config.chuleta").web()
+    end, { buffer = buf, silent = true, desc = "Abrir chuleta en navegador" })
     for _, key in ipairs({ "q", "<Esc>" }) do
       vim.keymap.set("n", key, function()
         if vim.api.nvim_win_is_valid(win) then vim.api.nvim_win_close(win, true) end
