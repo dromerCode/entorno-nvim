@@ -83,6 +83,8 @@ command_required fzf fzf
 command_required fd fd fdfind
 command_required ripgrep rg
 command_required lazygit lazygit
+command_optional 'git-delta (diffs de lazygit)' delta
+command_optional 'mdcat (lectura Markdown)' mdcat
 command_optional Pandoc pandoc
 if command -v chromium >/dev/null 2>&1; then
   ok navegador "$(command -v chromium)"

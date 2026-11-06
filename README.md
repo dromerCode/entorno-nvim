@@ -416,6 +416,7 @@ Server 5.6.0 se instalan de forma aislada, sin Mason ni npm global. Véase
 | `Ctrl-j` en insertar, HTML/CSS | También expandir Emmet: `p*5`, `p#average`, `ul>li*3` |
 | `Alt-Shift-j/k` / `Cmd-Shift-↓/↑` | Mover líneas o selecciones |
 | `<leader>gg` | Lazygit |
+| `<leader>mr` / `<leader>md` | Leer Markdown con mdcat / elegir documentación |
 | `<leader>mp` / `<leader>mv` | Generar PDF / generar y visualizar |
 | `<leader>ac` | Pegar contexto revisable en el agente |
 | `<leader>ut` | Elegir Catppuccin, Tokyo Night o Kanagawa |
@@ -452,3 +453,22 @@ historico de restauracion. El proyecto nunca borra backups automaticamente.
 ## Licencia
 
 MIT © 2026 Isaías Fernández Lozano
+
+### TypeScript al guardar
+
+El servidor TypeScript ajusta la sangría e inserta puntos y coma donde corresponde
+al guardar archivos TS/TSX. No añade ; a todas las líneas. Espacio uf permite
+activar/desactivar el formato al guardar; Espacio lf lo ejecuta manualmente.
+
+### Diffs de lazygit con delta
+
+Si está instalado git-delta (ejecutable delta), Espacio gg y Ctrl-a g lo usan
+para mostrar los cambios con resaltado y números de línea. No sustituye lazygit
+ni modifica Git global. La tecla | alterna con el diff nativo en lazygit reciente.
+El comprobador lo clasifica como recomendado opcional: si falta, Git sigue
+funcionando. Los instaladores lo ofrecen cuando procede, siempre con la
+confirmación habitual para cambios del sistema.
+
+Paquetes habituales: git-delta en Arch/CachyOS (pacman), Debian/Ubuntu cuando
+figure en sus repositorios (apt) y macOS (brew). En WSL2 se instala dentro de
+la distribución Linux. No es necesario para ejecutar Neovim.

@@ -199,6 +199,7 @@ M.web_servers = {
       root_dir = typescript_root,
       -- locale: mensajes de error de TypeScript/JavaScript en español.
       init_options = { locale = "es", preferences = { generateReturnInDocTemplate = true } },
+      settings = { typescript = { format = { semicolons = "insert" } } },
     },
   },
   html = {

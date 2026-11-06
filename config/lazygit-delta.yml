@@ -1,0 +1,6 @@
+git:
+  diffRenderers:
+    - command: delta --{{colorScheme}} --paging=never --line-numbers
+      name: delta
+    - type: rawGit
+      name: Git

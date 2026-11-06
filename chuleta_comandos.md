@@ -288,3 +288,11 @@ glow -p chuleta_comandos.md   # usar paginador
 Otra alternativa es **mdcat**, especialmente interesante en terminales como
 kitty, WezTerm o iTerm2. Ninguno sustituye la previsualización HTML/PDF cuando
 se necesita fidelidad gráfica, CSS, tablas complejas o imágenes.
+
+## Leer documentación Markdown
+
+En modo normal: **Espacio m r** lee el Markdown guardado con mdcat;
+**Espacio m d** permite elegir documentación del proyecto. Dentro del visor,
+**r** recarga y **q** cierra y vuelve al editor. Guarda antes con Espacio w.
+La ventana tmux docs se reutiliza. Requiere mdcat disponible en PATH; no se
+instala automáticamente. Detalles en [visor Markdown](docs/visor-markdown.md).

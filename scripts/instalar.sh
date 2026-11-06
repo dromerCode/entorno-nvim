@@ -111,6 +111,7 @@ clasificar() {
   entorno_fd_bin >/dev/null 2>&1 || anadir_falta fd 'fd o fdfind' esencial
   command -v rg >/dev/null 2>&1 || anadir_falta ripgrep ripgrep esencial
   command -v lazygit >/dev/null 2>&1 || anadir_falta lazygit lazygit esencial
+  command -v delta >/dev/null 2>&1 || anadir_falta git-delta 'git-delta (diffs de lazygit)' opcional
   command -v curl >/dev/null 2>&1 || anadir_falta curl curl esencial
   command -v tar >/dev/null 2>&1 || anadir_falta tar tar esencial
   command -v unzip >/dev/null 2>&1 || anadir_falta unzip unzip esencial

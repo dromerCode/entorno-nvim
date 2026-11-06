@@ -694,3 +694,11 @@ Esta tarea documenta el funcionamiento y no cambia atajos ni configuraciones
 de Omarchy. La prueba específica del explorador real verifica abrir/cerrar el
 panel, pero no se han ejecutado todas las acciones destructivas, comandos Git,
 operaciones PDF, clientes IA ni todas las combinaciones de cada plataforma.
+
+## Leer documentación Markdown
+
+En modo normal: **Espacio m r** lee el Markdown guardado con mdcat;
+**Espacio m d** permite elegir documentación del proyecto. Dentro del visor,
+**r** recarga y **q** cierra y vuelve al editor. Guarda antes con Espacio w.
+La ventana tmux docs se reutiliza. Requiere mdcat disponible en PATH; no se
+instala automáticamente. Detalles en [visor Markdown](visor-markdown.md).

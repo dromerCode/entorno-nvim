@@ -14,6 +14,8 @@ function M.setup()
       "gra        Arreglar el error bajo el cursor (importar, etc.)",
       "Espacio s  Insertar plantilla (lista con buscador)",
       "Espacio gg Git con lazygit",
+      "Espacio mr Leer Markdown con mdcat (r: recargar, q: cerrar)",
+      "Espacio md Elegir documentación Markdown del proyecto",
       "F1         Esta ayuda",
       "",
       "ARCHIVOS Y VENTANAS",

@@ -66,7 +66,9 @@ launch = function(cwd, command)
   vim.bo[buffer].bufhidden = "wipe"
   vim.bo[buffer].filetype = "lazygit"
 
-  local job = vim.fn.jobstart(command or { "lazygit" }, {
+  local job = vim.fn.jobstart(command or {
+    "sh", require("config.paths").repository() .. "/scripts/lazygit.sh",
+  }, {
     cwd = cwd,
     env = require("config.process").desktop_env(),
     term = true,

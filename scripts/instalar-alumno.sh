@@ -157,7 +157,7 @@ entorno_fd_bin >/dev/null 2>&1 || faltan="$faltan fd"
 [ -s /etc/ssl/certs/ca-certificates.crt ] || faltan="$faltan ca-certificates"
 faltan=${faltan# }
 
-# Recomendados: formato automático de Bash (shfmt) y Python (ruff).
+# Recomendados: formato Bash/Python y diffs de lazygit con delta.
 # Solo se ofrecen si el gestor de paquetes los tiene; nunca bloquean.
 paquete_disponible() {
   case "$ENTORNO_DISTRO" in
@@ -168,8 +168,10 @@ paquete_disponible() {
 }
 opcionales=
 if [ "$solo_comprobar" -eq 0 ]; then
-  for opcional in shfmt ruff; do
-    command -v "$opcional" >/dev/null 2>&1 && continue
+  for opcional in shfmt ruff git-delta; do
+    ejecutable=$opcional
+    [ "$opcional" != git-delta ] || ejecutable=delta
+    command -v "$ejecutable" >/dev/null 2>&1 && continue
     if paquete_disponible "$opcional"; then opcionales="$opcionales $opcional"; fi
   done
 fi
@@ -177,7 +179,7 @@ opcionales=${opcionales# }
 
 if [ -z "$faltan" ] && [ -n "$opcionales" ]; then
   entorno_fase "Programas recomendados"
-  printf 'Recomendados para formatear al guardar: %s\n' "$opcionales"
+  printf 'Recomendados para formato y lectura de cambios: %s\n' "$opcionales"
   case "$ENTORNO_DISTRO" in
     arch | cachyos | omarchy) comando_opc="sudo pacman -S --needed $opcionales" ;;
     *) comando_opc="sudo apt-get install -y $opcionales" ;;

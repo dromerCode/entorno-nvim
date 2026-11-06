@@ -37,6 +37,12 @@ lazygit=$(command -v lazygit 2>/dev/null || true)
 project=$(tmux show-option -v -t "$session" @entorno_project_root 2>/dev/null) || project=
 [ -n "$project" ] && [ -d "$project" ] || fail "la sesion no tiene un @entorno_project_root valido"
 
-git_window=$(tmux new-window -P -F '#{window_id}' -t "$session" -n git -c "$project" "$lazygit") ||
-  fail "no se pudo crear la ventana de lazygit"
+root=$(CDPATH= cd "${0%/*}/.." && pwd)
+if command -v delta >/dev/null 2>&1; then
+  git_window=$(tmux new-window -P -F '#{window_id}' -t "$session" -n git -c "$project" \
+    sh "$root/scripts/lazygit.sh") || fail "no se pudo crear la ventana de lazygit"
+else
+  git_window=$(tmux new-window -P -F '#{window_id}' -t "$session" -n git -c "$project" "$lazygit") ||
+    fail "no se pudo crear la ventana de lazygit"
+fi
 tmux set-option -w -t "$git_window" @entorno_window_role git

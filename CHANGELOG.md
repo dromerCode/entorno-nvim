@@ -2,6 +2,19 @@
 
 ## Sin publicar
 
+- git-delta como mejora opcional de lazygit: integración local para Neovim/tmux,
+  aviso de requisito y oferta en instaladores sin bloquear si falta.
+
+- Markdown largo: la ventana docs sitúa la lectura al principio, usando el modo
+  de desplazamiento de tmux y sin paginador externo.
+- TypeScript/TSX: el formateador LSP ya instalado inserta los puntos y coma
+  sintácticos al guardar, además de ajustar la sangría. Espacio uf lo desactiva.
+
+- Lectura Markdown con mdcat: Espacio m r abre el archivo guardado en una ventana
+  tmux docs reutilizable; Espacio m d permite elegir documentación del proyecto.
+  r recarga y q cierra y devuelve el foco al editor. Disponible en todos los
+  perfiles, sin paginador ni instalación automática; no altera el flujo PDF.
+
 - `entorno-dev .` respeta la carpeta actual aunque sea una subcarpeta de un
   repositorio Git. Antes subía a su raíz y podía reutilizar la sesión de otro
   ejercicio. Las rutas explícitas tienen sesión propia; el selector conserva

@@ -27,8 +27,13 @@ map("n", "<leader>gg", function()
   require("config.git").open()
 end, { desc = "Abrir lazygit" })
 
+map("n", "<leader>m", "<Nop>", { desc = "+Markdown" })
+map("n", "<leader>mr", function() require("config.markdown_view").open() end,
+  { desc = "Leer Markdown con mdcat" })
+map("n", "<leader>md", function() require("config.markdown_view").pick() end,
+  { desc = "Elegir documentación Markdown" })
+
 if require("config.profile").has("pdf") then
-  map("n", "<leader>m", "<Nop>", { desc = "+Markdown" })
   map("n", "<leader>mp", function()
     require("config.markdown_pdf").export_current()
   end, { desc = "Generar PDF del Markdown actual" })

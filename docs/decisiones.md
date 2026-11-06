@@ -485,3 +485,27 @@ invoca el instalador de alumnado. Si la instalación ARM falló antes de guardar
 el perfil, la rama por defecto también invoca `instalar-alumno.sh`, con pausa
 Enter; no el instalador completo del profesor. El README recomienda ahora
 el actualizador también para ese caso. Git manual solo si el script no existe.
+
+## TypeScript: puntos y coma al guardar — 2026-11-06
+
+El formato al guardar ya existía. Se añade typescript.format.semicolons = "insert"
+a ts_ls, usando el servidor instalado, sin Prettier ni nuevas dependencias.
+La sangría sigue las opciones del buffer (por defecto dos espacios). No se añade
+un punto y coma ciegamente a cada línea: el formateador respeta bloques y cadenas.
+Espacio uf conserva la desactivación. Prueba real con BufWritePre, servidor
+TypeScript y archivo temporal: sangría, declaraciones/llamadas, llaves sin ;,
+cadena con ; interno, idempotencia y desactivación.
+
+## Delta como mejora opcional de lazygit — 2026-11-06
+
+Dependencia directa opcional git-delta (ejecutable delta). Aporta resaltado del
+diff y números de línea; alternativa sencilla: renderizado nativo de lazygit.
+No sustituye lazygit ni cambia la configuración global de Git. Un lanzador
+común para Neovim y tmux añade un overlay del repositorio a la configuración
+existente; detecta la versión de lazygit para escoger diffRenderers (>=0.64)
+o pagers (anteriores). Si falta delta o la versión es desconocida, usa lazygit
+normal. El comprobador avisa sin bloquear; los instaladores ofrecen el paquete
+solo con la confirmación de sistema habitual, y alumnado solo si está disponible.
+No se fija el paquete del sistema; su versión real se registra en el cierre.
+
+Fuente: https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_DiffRenderers.md
