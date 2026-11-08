@@ -28,9 +28,9 @@ try:
     source = re.sub(r'<div class="codeblock">(.*?)</div>', codeblock, source, flags=re.S)
     result = subprocess.run(["pandoc", "-f", "html-native_divs-native_spans", "-t", "gfm-raw_html", "--wrap=none"],
                             input=source, capture_output=True, text=True, check=True, timeout=20)
-    warning = ("# Aviso de revisión\n\nEsta copia procede de la chuleta del alumno. "
-               "La edición revisada tiene instrucciones antiguas: no ejecute `git restore .` "
-               "sin revisar sus cambios. El reset de mini.diff usa el índice Git.\n\n")
+    # La chuleta del 2026-11-08 ya no recomienda `git restore .` y explica que
+    # el reset de mini.diff usa el índice Git: basta con indicar su origen.
+    warning = "> Copia de la chuleta del alumnado (dromercode.github.io).\n\n"
     dest.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=dest.parent, delete=False) as temporary:
         temp = Path(temporary.name)

@@ -14,16 +14,24 @@ function M.web()
 end
 function M.open()
   local cache = vim.fs.joinpath(vim.fn.stdpath("cache"), "chuleta-alumno.md")
-  if vim.fn.filereadable(cache) == 1 then return require("config.markdown_view").open(cache) end
+  local view = require("config.markdown_view")
+  local stat = vim.uv.fs_stat(cache)
+  -- La chuleta se actualiza con el entorno: la copia se renueva cada 7 días.
+  if stat and os.time() - stat.mtime.sec < 7 * 24 * 3600 then return view.open(cache) end
   if vim.fn.executable("python3") ~= 1 or vim.fn.executable("pandoc") ~= 1 then
+    if stat then return view.open(cache) end
     return notify("La primera descarga necesita python3 y pandoc. También puede abrir la web con w.")
   end
   local script = vim.fs.joinpath(require("config.paths").repository(), "scripts", "chuleta-descargar.py")
   vim.notify("Descargando y preparando la chuleta…")
   vim.system({ "python3", script, cache }, { text = true }, function(result)
     vim.schedule(function()
-      if result.code ~= 0 then return notify("No se pudo descargar la chuleta: " .. vim.trim(result.stderr or "")) end
-      require("config.markdown_view").open(cache)
+      if result.code ~= 0 then
+        -- Sin Internet se abre la copia anterior si existe.
+        if stat then return view.open(cache) end
+        return notify("No se pudo descargar la chuleta: " .. vim.trim(result.stderr or ""))
+      end
+      view.open(cache)
     end)
   end)
 end

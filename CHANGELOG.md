@@ -2,6 +2,10 @@
 
 ## Sin publicar
 
+- Chuleta ampliada (F1 c): la copia descargada se renueva cada 7 días y, sin
+  Internet, se abre la anterior. La chuleta del alumnado ya está corregida
+  (`git restore .` y reset de mini.diff), así que se quita el aviso de revisión.
+
 - Prettier 3.9.10 al guardar en JS, TS, JSX, TSX, HTML, CSS y JSON, el mismo
   formato que VS Code. Fijado en `tools/lsp-web` (lo instala `actualizar.sh`);
   usa el Prettier del proyecto si lo tiene y respeta `.prettierrc`,
