@@ -5,6 +5,8 @@
 El servidor HTML aporta completado, formato y operaciones de etiquetas, pero
 no comprueba por sí solo todo el marcado. `config.html_validation` añade
 `html-validate` 11.16.2, instalado y fijado en `tools/lsp-web` con Node 24.
+En la misma carpeta se fija `prettier` 3.9.10 para el formato al guardar
+(ver `docs/decisiones.md`).
 Lo reciben tanto el instalador completo como el del alumnado. Para actualizar
 una copia existente: `./scripts/actualizar.sh`; para reinstalar solo estas
 herramientas: `./scripts/instalar-lsp-web.sh`.

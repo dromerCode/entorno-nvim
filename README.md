@@ -454,10 +454,14 @@ historico de restauracion. El proyecto nunca borra backups automaticamente.
 
 MIT © 2026 Isaías Fernández Lozano
 
-### TypeScript al guardar
+### Formato al guardar con Prettier
 
-El servidor TypeScript ajusta la sangría e inserta puntos y coma donde corresponde
-al guardar archivos TS/TSX. No añade ; a todas las líneas. Espacio uf permite
+JS, TS, JSX, TSX, HTML, CSS y JSON se formatean al guardar con Prettier, como en
+VS Code: sangría, comillas, puntos y coma y saltos de línea. Se usa el Prettier
+del proyecto si está en `node_modules` y, si no, el fijado en `tools/lsp-web`.
+Un `.prettierrc` del proyecto cambia el estilo (por ejemplo `"singleQuote": true`).
+Si el código tiene un error de sintaxis o Prettier no está instalado, se formatea
+con el servidor LSP como antes (TS/TSX con sus puntos y coma). Espacio uf permite
 activar/desactivar el formato al guardar; Espacio lf lo ejecuta manualmente.
 
 ### Diffs de lazygit con delta

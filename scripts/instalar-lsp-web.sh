@@ -58,6 +58,7 @@ fi
 for executable in \
   tailwindcss-language-server \
   html-validate \
+  prettier \
   typescript-language-server \
   vscode-html-language-server \
   vscode-css-language-server \

@@ -101,6 +101,7 @@ function M.setup()
       "gd         Ir a definición; Ctrl+o vuelve",
       "K otra vez Entrar en ayuda del símbolo; j/k desplaza",
       "Espacio lf Formatear código (también se formatea al guardar)",
+      "           JS/TS/HTML/CSS/JSON con Prettier, como VS Code",
       "Espacio uf Activar/desactivar formato al guardar",
       "Espacio l  Menú de código: definición, documentación, usos,",
       "           renombrar, arreglos rápidos (a), errores (d)",

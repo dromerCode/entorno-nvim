@@ -509,3 +509,28 @@ solo con la confirmación de sistema habitual, y alumnado solo si está disponib
 No se fija el paquete del sistema; su versión real se registra en el cierre.
 
 Fuente: https://github.com/jesseduffield/lazygit/blob/master/docs/Custom_DiffRenderers.md
+
+## Prettier al guardar — 2026-11-08
+
+Qué resuelve: el formato LSP de TypeScript solo ajusta sangría y puntos y coma;
+HTML, CSS y JSON dependen de servidores distintos con estilos diferentes. El
+alumnado y los proyectos de clase (Vite) usan Prettier en VS Code, así que el
+mismo archivo quedaba distinto según el editor. Prettier da un único estilo
+para JS, TS, JSX, TSX, HTML, CSS y JSON y lee `.prettierrc`, `.editorconfig` y
+`.prettierignore` del proyecto.
+
+Dependencia directa: `prettier` 3.9.10 en `tools/lsp-web`, versión exacta y
+lockfile pnpm, sin dependencias propias ni scripts de instalación. Lo instala
+`instalar-lsp-web.sh` (y por tanto `actualizar.sh`) con el mismo
+`minimumReleaseAge`. Si el proyecto trae su propio Prettier en `node_modules`,
+se usa ese para coincidir con su versión.
+
+Alternativa sencilla: seguir solo con el formato LSP (decisión del 2026-11-06).
+Se conserva como respaldo: si Prettier falta, tarda más de 3 s o encuentra un
+error de sintaxis, el guardado formatea con el LSP igual que antes. Estilo por
+defecto de Prettier, sin opciones propias, para no imponer uno distinto al de
+VS Code. Espacio uf y `b:entorno_sin_formato` siguen desactivándolo.
+
+Prueba: `tests/comprobar_formato_prettier.lua` (guardado real con BufWritePre:
+JS, HTML, CSS, `.prettierrc` del proyecto, error de sintaxis, idempotencia y
+desactivación). `tests/comprobar_formato_typescript.lua` sigue pasando.

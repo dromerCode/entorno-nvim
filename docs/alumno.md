@@ -110,7 +110,9 @@ real (no comentada) y pulsa Enter: se genera el JSDoc con sus parámetros.
 
 Las opciones de `Espacio t` muestran entre paréntesis la tecla nativa de Vim
 (`dd`, `yy`, `gcc`...): así puedes aprenderla y usarla directamente.
-`Espacio uf` desactiva el formato al guardar si alguna vez molesta.
+`Espacio uf` desactiva el formato al guardar si alguna vez molesta. JS, TS, HTML,
+CSS y JSON se formatean con Prettier, igual que en VS Code; si tu proyecto tiene
+`.prettierrc`, se usa su estilo.
 
 ### Bash: ShellCheck es imprescindible
 

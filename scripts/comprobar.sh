@@ -53,6 +53,10 @@ python3 "$PROJECT_ROOT/tests/comprobar_delta.py"
   "+lua local ok, err = pcall(dofile, vim.env.ENTORNO_NVIM_ROOT .. '/tests/comprobar_formato_typescript.lua'); if not ok then vim.api.nvim_err_writeln(err); vim.cmd('cquit 1') end" \
   "+qa!"
 
+"$SCRIPT_DIR/arrancar.sh" --headless \
+  "+lua local ok, err = pcall(dofile, vim.env.ENTORNO_NVIM_ROOT .. '/tests/comprobar_formato_prettier.lua'); if not ok then vim.api.nvim_err_writeln(err); vim.cmd('cquit 1') end" \
+  "+qa!"
+
 "$PROJECT_ROOT/tests/comprobar_tmux.sh"
 sh "$PROJECT_ROOT/tests/comprobar_directorio.sh"
 "$PROJECT_ROOT/tests/comprobar_activacion.sh"
